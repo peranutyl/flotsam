@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -30,34 +31,43 @@ public class SQLRepository {
     public static final String INSERT_SIGN_UP = "INSERT INTO USERS VALUES (null, ?, ?, ?)";
     public static final String SELECT_LOGIN = "SELECT * FROM USERS WHERE username = ?";
     public static final String SELECT_USER_DETAILS = "SELECT * FROM USERS WHERE id = ?";
-    public static final String SELECT_USER_MEDIA = "SELECT media_id FROM USERS_MEDIA WHERE user_id = ?";
-
+    public static final String SELECT_USER_MEDIA = "SELECT media_id FROM USERS_MEDIA WHERE user_id = ? AND media_status = ?";
+    public static final String UPDATE_USER_MEDIA = "UPDATE USERS_MEDIA SET media_status = ? WHERE user_id = ? AND media_id = ?";
+    public static final String DELETE_USER_MEDIA = "DELETE FROM USERS_MEDIA WHERE USER_ID = ? AND MEDIA_ID = ?";
+    public static final String CHECK_USER_NAME = "SELECT id FROM USERS WHERE username = ?";
 
     public void addmediatouser(Integer id, String media_type, Integer media_id) {
         template.update(INSERT_MEDIA_INTO_USER, id, media_type, media_id, "salvaged") ;
     }
 
     public Integer signup(String username, String hashedpassword, String imageURL) {
-    KeyHolder generatedKey = new GeneratedKeyHolder();
-
-    PreparedStatementCreator psc = new PreparedStatementCreator() {
-
-        @Override
-        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-
-            PreparedStatement ps = con.prepareStatement(INSERT_SIGN_UP, new String[] { "id" });
-            ps.setString(1, username);
-            ps.setString(2, hashedpassword);
-            ps.setString(3, imageURL);
-            return ps;
+        try {
+            Integer existid = template.queryForObject(CHECK_USER_NAME, Integer.class, username);
+            if (existid != null) {
+                return null;
+            }
+        } catch (EmptyResultDataAccessException ex) {
         }
+        KeyHolder generatedKey = new GeneratedKeyHolder();
 
-    };
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
+        
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 
-    template.update(psc, generatedKey);
+                PreparedStatement ps = con.prepareStatement(INSERT_SIGN_UP, new String[] { "id" });
+                ps.setString(1, username);
+                ps.setString(2, hashedpassword);
+                ps.setString(3, imageURL);
+                return ps;
+            }
 
-    Integer id = generatedKey.getKey().intValue();
-    return id;
+        };
+
+        template.update(psc, generatedKey);
+
+        Integer id = generatedKey.getKey().intValue();
+        return id;
     }
 
     public Integer login(String username, String password) {
@@ -78,11 +88,19 @@ public class SQLRepository {
     public User getuserdetails(Integer id) {
         User user = new User();
         user = template.queryForObject(SELECT_USER_DETAILS, BeanPropertyRowMapper.newInstance(User.class), id);
-        System.out.println(user);
+
         return user;
     }
     
-    public List<Integer> getlistofgames(Integer id) {
-        return template.queryForList(SELECT_USER_MEDIA, Integer.class, id);
+    public List<Integer> getlistofgames(Integer id, String status) {
+        return template.queryForList(SELECT_USER_MEDIA, Integer.class, id, status);
+    }
+
+    public void updateusermedia(Integer user_id, Integer mediaid, String status) {
+        template.update(UPDATE_USER_MEDIA, status, user_id, mediaid);
+    }
+
+    public void deletegame(Integer userid, Integer gameid) {
+        template.update(DELETE_USER_MEDIA, userid, gameid);
     }
 }

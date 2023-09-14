@@ -2,13 +2,13 @@
 <body>
 <div class="profile">
 <img src="{{ userDetails.imageURL }}" >
-<h1>{{ userDetails.username }}</h1>
-<h1>How many hours are You free today?</h1>
+<h1 style="font-weight: bold;">{{ userDetails.username }}</h1>
+<h1>Maybe You've Touched Enough Grass For Today</h1>
 </div>
 
 <div class="everything">
-  <h1>Your Salvaged Games</h1>
-  <div *ngFor="let gameCard of userGames">
+  <h1 style="font-weight: bold;">Your Salvaged Games</h1>
+  <div *ngFor="let gameCard of userGamesSalvaged">
   <mat-card class="card">
     <mat-card-content class="card-content">
       <div class="image">
@@ -26,8 +26,8 @@
 
 
 <div class="everything">
-  <h1>Your Pending Games</h1>
-  <div *ngFor="let gameCard of userGames">
+  <h1 style="font-weight: bold;">Your Pending Games</h1>
+  <div *ngFor="let gameCard of userGamesPending">
   <mat-card class="card">
     <mat-card-content class="card-content">
       <div class="image">
@@ -35,11 +35,29 @@
       </div>
       <div class="text_and_buttons">
         {{ gameCard.name }}<br>
-        <button mat-button color="primary" (click)="gamePending(gameCard.appid)">...</button>
+        <button mat-button color="primary" (click)="gameCompleted(gameCard.appid)">✓</button>
       </div>
 
     </mat-card-content>
   </mat-card>
   </div>
   </div>
+
+  <div class="everything">
+    <h1 style="font-weight: bold;">Your Completed Games</h1>
+    <div *ngFor="let gameCard of userGamesCompleted">
+    <mat-card class="card">
+      <mat-card-content class="card-content">
+        <div class="image">
+          <img mat-card-lg-image src="{{ gameCard.header_image }}">
+        </div>
+        <div class="text_and_buttons">
+          {{ gameCard.name }}<br>
+          <button mat-button color="primary" (click)="gameDeleted(gameCard.appid)">x</button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+    </div>
+    </div>
 </body>

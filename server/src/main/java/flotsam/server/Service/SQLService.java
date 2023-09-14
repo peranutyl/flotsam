@@ -32,7 +32,15 @@ public class SQLService {
         return SQLRepo.getuserdetails(id);
     }
 
-    public List<Integer> getlistofgames(Integer id) {
-        return SQLRepo.getlistofgames(id);
+    public List<Integer> getlistofgames(Integer id, String status) {
+        return SQLRepo.getlistofgames(id, status);
+    }
+
+    public void updateusermedia(Integer user_id, Integer mediaid, String status) {
+        SQLRepo.updateusermedia(user_id, mediaid, status);
+    }
+
+    public void deletegame(Integer userid, Integer gameid) {
+        SQLRepo.deletegame(userid, gameid);
     }
 }

@@ -7,10 +7,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.client.RestTemplate;
@@ -81,12 +83,6 @@ public class FlotsamControl {
                             String release_date = gameData.getJsonObject("release_date").getString("date");
                             
                             gameCards.add(new GameCards(appid, name, short_description, capsule_image, release_date));
-
-                            System.out.println("ID: " + appid);
-                            System.out.println("Name: " + name);
-                            System.out.println("Short Description: " + short_description);
-                            System.out.println("Header Image URL: " + capsule_image);
-                            System.out.println("release_date: " + release_date);
                             count ++;
                     }
                     }
@@ -108,12 +104,7 @@ public class FlotsamControl {
         String header_image = gameData.getString("header_image");
         String release_date = gameData.getJsonObject("release_date").getString("date");
         String developers = gameData.getJsonArray("developers").getString(0);
-                            System.out.println("ID: " + id);
-                            System.out.println("Name: " + name);
-                            System.out.println("Short Description: " + short_description);
-                            System.out.println("Header Image URL: " + header_image);
-                            System.out.println("release_date: " + release_date);
-                            System.out.println(developers);
+
         GameDetails gameDetails = new GameDetails(name, short_description, header_image, release_date, developers);
         return ResponseEntity.ok(gameDetails);
     }
@@ -162,14 +153,17 @@ public class FlotsamControl {
     @GetMapping(path="/addmedia")
     public ResponseEntity<String> addgames(@RequestParam String userid, @RequestParam Integer gameid) {
         SQLServe.addmediatouser(Integer.valueOf(userid), "game", gameid);
-        return ResponseEntity.ok("IT WORKS");
+        JsonObject resp = Json.createObjectBuilder()
+            .add("works", "it works")
+            .build();
+        return ResponseEntity.ok(resp.toString());
     }
 
     @GetMapping(path="/listofgames")
-    public ResponseEntity<List<GameCards>> listofmedia(@RequestParam String userid){
+    public ResponseEntity<List<GameCards>> listofmedia(@RequestParam String userid, @RequestParam String status){
         List<Integer> games = new ArrayList<>();
         List<GameCards> gameCards = new ArrayList<>();
-        games = SQLServe.getlistofgames(Integer.valueOf(userid));
+        games = SQLServe.getlistofgames(Integer.valueOf(userid), status);
         for (Integer gameid : games){
             String appdetailsURL = "https://store.steampowered.com/api/appdetails?appids=" + gameid;
             String appdetails = restTemplate.getForObject(appdetailsURL, String.class);
@@ -183,8 +177,24 @@ public class FlotsamControl {
         }
         return ResponseEntity.ok(gameCards);
     }
+
+    @GetMapping(path="/updateusermedia")
+    public ResponseEntity<String> updateusermedia(@RequestParam String userid, @RequestParam Integer mediaid, @RequestParam String status ){
+        SQLServe.updateusermedia(Integer.valueOf(userid), mediaid, status);
+        JsonObject resp = Json.createObjectBuilder()
+            .add("works", "it works")
+            .build();
+        return ResponseEntity.ok(resp.toString());
+    }
+
+    @GetMapping(path="/deletegame")
+    public ResponseEntity<String> deletegame(@RequestParam String userid, @RequestParam Integer gameid){
+        SQLServe.deletegame(Integer.valueOf(userid), gameid);
+        JsonObject resp = Json.createObjectBuilder()
+            .add("works", "it works")
+            .build();
+        return ResponseEntity.ok(resp.toString());
+    }
 }
-
-
 
 

@@ -2,10 +2,10 @@
 <body>
 <div class="everything">
 <h1 style="font-weight: bold;">Salvage</h1>
-<mat-button-toggle-group name="mediaType" aria-label="Font Style">
+<!-- <mat-button-toggle-group name="mediaType" aria-label="Font Style">
   <mat-button-toggle (click)="mediaType = 'game'" checked>Game</mat-button-toggle>
   <mat-button-toggle (click)="mediaType = 'movie'">Movie</mat-button-toggle>
-</mat-button-toggle-group>
+</mat-button-toggle-group> -->
 <form [formGroup]="searchGameForm" (ngSubmit)="searchGame()">
 <input type = "text" formControlName="searchGame">
 <button type="submit">Send a Search Party</button>

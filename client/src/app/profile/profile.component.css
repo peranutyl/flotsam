@@ -1,7 +1,9 @@
 body {
-  background-image: url('https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/41debe57');
+  background-image: url('https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/39e335ab');
   background-size: cover;
-  background-repeat: repeat;
+  height: 250%;
+  width: 100%;
+
 }
 
 .profile {

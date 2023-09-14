@@ -56,6 +56,7 @@ export class AddgameComponent {
     this.service.addgame(this.userid, id)
     .then(resp =>{
       console.log(resp)
+      this.gameCards = this.gameCards.filter((game) => game.appid !== id);
     })
     .catch(error =>{
       console.error(error)

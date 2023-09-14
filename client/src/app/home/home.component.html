@@ -10,7 +10,7 @@
     </h1>
     <h2 *ngIf=failedLogin style="color: red;">Failure</h2>
     <div>
-      <button type="submit">Login</button><br>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button><br>
     </div>
     <button type="button" (click)="navToSignUp()">Sign Up</button>
 

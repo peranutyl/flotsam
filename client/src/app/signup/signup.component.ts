@@ -15,7 +15,7 @@ export class SignupComponent {
   router = inject(Router)
   @ViewChild('toUpload')
   toUpload!: ElementRef
-
+  failedSignUp!: boolean
   signUpForm!: FormGroup
 
   ngOnInit(): void {
@@ -37,6 +37,12 @@ export class SignupComponent {
       })
       .catch(error => {
         console.error('error: ', error)
+        this.failedSignUp = true
       })
+  }
+  navToHome(){
+    this.router.navigate(
+      ['/']
+    )
   }
 }

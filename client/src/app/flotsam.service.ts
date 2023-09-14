@@ -44,19 +44,28 @@ export class FlotsamService {
     return firstValueFrom(this.http
       .get<any>('/addmedia',{ params: params}))
   }
-  pendinggame(userid: any, gameid:any): Promise<any> {
+  updategame(userid: any, mediaid:any, status: any): Promise<any> {
+    const params = new HttpParams()
+    .set("userid", userid)
+    .set("mediaid", mediaid)
+    .set("status", status)
+    return firstValueFrom(this.http
+      .get<any>('/updateusermedia',{ params: params}))
+  }
+
+  getgamelist(userid: any, status: string): Promise<any> {
+    const params = new HttpParams()
+    .set("userid", userid)
+    .set("status", status)
+    return firstValueFrom(this.http
+      .get<any>('/listofgames',{ params: params}))
+  }
+  deletegame(userid:any, gameid:any): Promise<any> {
     const params = new HttpParams()
     .set("userid", userid)
     .set("gameid", gameid)
     return firstValueFrom(this.http
-      .get<any>('/listofgames',{ params: params}))
-  }
-
-  getgamelist(userid: any): Promise<any> {
-    const params = new HttpParams()
-    .set("userid", userid)
-    return firstValueFrom(this.http
-      .get<any>('/listofgames',{ params: params}))
+      .get<any>('/deletegame',{ params: params}))
   }
 }
 

@@ -1,7 +1,8 @@
 body {
   background-image: url('https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/41debe57');
   background-size: cover;
-  background-repeat: repeat;
+  height: 200%;
+  width: 100%;
 }
 
 .card {

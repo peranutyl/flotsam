@@ -1,9 +1,29 @@
+body {
+  background-image: url(https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/b429bfd8);
+  background-size: cover;
+  height: 200%;
+}
+
 .everything {
   font-family: 'Trebuchet MS', sans-serif;
   text-align: center;
   margin: 0 auto;
+  background-color:azure;
 }
 
 .everything mat-card-title-group {
   text-align: right;
+}
+
+.everything h1, .everything h2, .everything h3, .everything h4, .everything p {
+  margin: 1px 0;
+}
+
+
+.everything h1, .everything h2, .everything h3, .everything h4, .everything p {
+  padding: 1px;
+}
+
+h1 {
+  font-weight: bolder
 }

@@ -11,10 +11,11 @@
   <div>
     Profile Picture: <input type="file" #toUpload>
   </div>
-
+  <h2 *ngIf=failedSignUp style="color: red;">This Username Has Been Taken</h2>
   <div>
-    <button type="submit">Submit</button>
+    <button type="submit" [disabled]="signUpForm.invalid">Submit</button>
   </div>
+  <button type="button" (click)="navToHome()">Back To Login</button>
 </form>
 </div>
 </body>
