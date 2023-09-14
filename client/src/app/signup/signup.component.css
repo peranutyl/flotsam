@@ -1,0 +1,20 @@
+body {
+  background-image: url('https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/b8754a3f');
+  background-size: cover;
+}
+.everything {
+  font-family: 'Trebuchet MS', sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+h1 {
+  font-weight: bold;
+  color: darkblue;
+  padding: 10px;
+}
+

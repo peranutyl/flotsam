@@ -38,28 +38,6 @@ public class FlotsamControl {
     
     RestTemplate restTemplate = new RestTemplate();
     
-    @PostMapping(path="/insertgames")
-    public ResponseEntity<String> insertGame(@RequestPart String name,  @RequestPart String description, @RequestPart String developers,
-    @RequestPart MultipartFile image, @RequestPart String release_date, @RequestPart Integer score) {
-        try {
-            String contentType = image.getContentType();
-            InputStream is = image.getInputStream();
-            String imageid = S3Repo.S3Upload(contentType, is);
-            String gameid = SQLServe.insertGame(name, description, developers, S3Repo.getURL(imageid), release_date, score);
-            JsonObject resp = Json.createObjectBuilder()
-                .add("id", gameid)
-                .build();
-            return ResponseEntity.ok(resp.toString());
-
-		} catch (Exception ex) {
-			JsonObject resp = Json.createObjectBuilder()
-				.add("error", ex.getMessage())
-				.build();
-			return ResponseEntity.status(500)
-				.body(resp.toString());
-		}
-        
-    }
     
     @GetMapping(path="/searchsteamgames")
     public ResponseEntity<List<GameCards>> searchSteamGames(@RequestParam String searchTerm){
@@ -118,12 +96,6 @@ public class FlotsamControl {
             }
         }
         return ResponseEntity.ok(gameCards);
-    }
-
-    @PostMapping(path="/addmediatouser")
-    public ResponseEntity<String> addmediatouser(@RequestParam Integer id, @RequestParam String media_type, @RequestParam String media_id) {
-        SQLServe.addmediatouser(id, media_type, media_id);
-        return null;
     }
 
     @GetMapping(path="/getgamedetails")
@@ -187,6 +159,30 @@ public class FlotsamControl {
        return ResponseEntity.ok(gameReviews);
     }
 
+    @GetMapping(path="/addmedia")
+    public ResponseEntity<String> addgames(@RequestParam String userid, @RequestParam Integer gameid) {
+        SQLServe.addmediatouser(Integer.valueOf(userid), "game", gameid);
+        return ResponseEntity.ok("IT WORKS");
+    }
+
+    @GetMapping(path="/listofgames")
+    public ResponseEntity<List<GameCards>> listofmedia(@RequestParam String userid){
+        List<Integer> games = new ArrayList<>();
+        List<GameCards> gameCards = new ArrayList<>();
+        games = SQLServe.getlistofgames(Integer.valueOf(userid));
+        for (Integer gameid : games){
+            String appdetailsURL = "https://store.steampowered.com/api/appdetails?appids=" + gameid;
+            String appdetails = restTemplate.getForObject(appdetailsURL, String.class);
+            JsonObject gameData = Json.createReader(new StringReader(appdetails)).readObject().getJsonObject(gameid.toString()).getJsonObject("data");
+            String name = gameData.getString("name");
+            String short_description = gameData.getString("short_description");
+            String capsule_image = gameData.getString("capsule_image");
+            String release_date = gameData.getJsonObject("release_date").getString("date");
+            
+            gameCards.add(new GameCards(gameid, name, short_description, capsule_image, release_date));
+        }
+        return ResponseEntity.ok(gameCards);
+    }
 }
 
 

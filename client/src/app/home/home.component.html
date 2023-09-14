@@ -1,0 +1,20 @@
+<body>
+<div class="everything">
+  <form [formGroup]="loginForm" (submit)="processForm()">
+
+    <h1>
+      Username: <input type="text" formControlName="username">
+    </h1>
+    <h1>
+      Password: <input type="password" formControlName="password">
+    </h1>
+    <h2 *ngIf=failedLogin style="color: red;">Failure</h2>
+    <div>
+      <button type="submit">Login</button><br>
+    </div>
+    <button type="button" (click)="navToSignUp()">Sign Up</button>
+
+  </form>
+  </div>
+
+</body>

@@ -1,0 +1,30 @@
+<app-navigation></app-navigation>
+<div class="everything">
+  <div>
+  <h1>{{ gameDetails.name }}</h1>
+  <button mat-button color="primary" (click)="addgame()">+</button>
+</div>
+  <img src="{{ gameDetails.header_image }}" >
+  <h4>{{ gameDetails.short_description}}</h4>
+  <h2>Release Date: {{ gameDetails.release_date}}</h2>
+  <h2>Developers: {{ gameDetails.developers }}</h2>
+  <h3>Reviews: {{ reviewSummary.review_score_desc }}</h3>
+  <h3>Number of Reviews: {{reviewSummary.total_reviews }}</h3>
+  <h3>{{ reviewSummary.positive_percentage }}% user reviews for this game are positive </h3>
+  <mat-button-toggle-group name="reviewType" aria-label="Font Style">
+    <mat-button-toggle (click)="getreview('positive')">Positive but funny</mat-button-toggle>
+    <mat-button-toggle (click)="getreview('negative')">Negative but still funny</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div *ngFor="let review of listOfReviews">
+    <mat-card >
+      <mat-card-content>
+        <div style="text-align: left; font-weight: bold;">
+          Hours Played: {{ review.playtime_at_review }}<br>
+          {{ review.votes_funny }} people found this funny<br>
+        </div>
+        {{ review.review }}
+      </mat-card-content>
+    </mat-card>
+    </div>
+
+  </div>

@@ -1,0 +1,49 @@
+body {
+  background-image: url('https://thisisabucket.sgp1.cdn.digitaloceanspaces.com/41debe57');
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+.card {
+  max-width: 25%;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin: 0 auto;
+  display: flex;
+  padding: 0;
+}
+
+
+mat-card-content {
+  height: 50px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  padding: 0;
+}
+
+
+.everything {
+  font-family: 'Trebuchet MS', sans-serif;
+  text-align: center;
+  margin: 0 auto;
+}
+
+
+
+.image {
+  flex: 0 0 auto;
+  margin-right: 16px;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.text_and_buttons {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

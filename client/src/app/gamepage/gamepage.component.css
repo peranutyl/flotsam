@@ -1,0 +1,9 @@
+.everything {
+  font-family: 'Trebuchet MS', sans-serif;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.everything mat-card-title-group {
+  text-align: right;
+}

@@ -1,0 +1,20 @@
+<body>
+<div class="everything">
+<form [formGroup]="signUpForm" (submit)="processForm()">
+
+  <h1>
+    Username: <input type="text" formControlName="username">
+  </h1>
+  <h1>
+    Password: <input type="password" formControlName="password">
+  </h1>
+  <div>
+    Profile Picture: <input type="file" #toUpload>
+  </div>
+
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+</div>
+</body>

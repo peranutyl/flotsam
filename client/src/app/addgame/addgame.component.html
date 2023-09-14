@@ -1,0 +1,29 @@
+<app-navigation></app-navigation>
+<body>
+<div class="everything">
+<h1 style="font-weight: bold;">Salvage</h1>
+<mat-button-toggle-group name="mediaType" aria-label="Font Style">
+  <mat-button-toggle (click)="mediaType = 'game'" checked>Game</mat-button-toggle>
+  <mat-button-toggle (click)="mediaType = 'movie'">Movie</mat-button-toggle>
+</mat-button-toggle-group>
+<form [formGroup]="searchGameForm" (ngSubmit)="searchGame()">
+<input type = "text" formControlName="searchGame">
+<button type="submit">Send a Search Party</button>
+</form>
+<mat-progress-bar mode="indeterminate" *ngIf="showProgressBar"></mat-progress-bar>
+<div *ngFor="let gameCard of gameCards">
+<mat-card class="card" (click)="gameDetails(gameCard.appid)">
+  <mat-card-content class="card-content">
+    <div class="image">
+      <img mat-card-lg-image src="{{ gameCard.header_image }}">
+    </div>
+    <div class="text_and_buttons">
+      {{ gameCard.name }}<br>
+      <button mat-button color="primary" (click)="addgame(gameCard.appid, $event)">+</button>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+</div>
+</div>
+</body>

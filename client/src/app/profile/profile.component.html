@@ -1,0 +1,45 @@
+<app-navigation></app-navigation>
+<body>
+<div class="profile">
+<img src="{{ userDetails.imageURL }}" >
+<h1>{{ userDetails.username }}</h1>
+<h1>How many hours are You free today?</h1>
+</div>
+
+<div class="everything">
+  <h1>Your Salvaged Games</h1>
+  <div *ngFor="let gameCard of userGames">
+  <mat-card class="card">
+    <mat-card-content class="card-content">
+      <div class="image">
+        <img mat-card-lg-image src="{{ gameCard.header_image }}">
+      </div>
+      <div class="text_and_buttons">
+        {{ gameCard.name }}<br>
+        <button mat-button color="primary" (click)="gamePending(gameCard.appid)">...</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+  </div>
+  </div>
+
+
+<div class="everything">
+  <h1>Your Pending Games</h1>
+  <div *ngFor="let gameCard of userGames">
+  <mat-card class="card">
+    <mat-card-content class="card-content">
+      <div class="image">
+        <img mat-card-lg-image src="{{ gameCard.header_image }}">
+      </div>
+      <div class="text_and_buttons">
+        {{ gameCard.name }}<br>
+        <button mat-button color="primary" (click)="gamePending(gameCard.appid)">...</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+  </div>
+  </div>
+</body>
